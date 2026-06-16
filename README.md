@@ -2,6 +2,12 @@
 
 REST API для колекції букетів. Express + PostgreSQL (Sequelize).
 
+## Live
+
+- **API**: https://flora-backend-sii6.onrender.com
+- **Swagger UI**: https://flora-backend-sii6.onrender.com/api-docs
+- **Frontend**: https://iryna-vokh-silence.github.io/flora/
+
 ## Локальний запуск
 
 ```bash
@@ -31,4 +37,4 @@ npm run seed
 | PATCH | /api/bouquets/:id/favorite | Переключити favorite |
 | PATCH | /api/bouquets/:id/photo | Оновити фото (multipart/form-data) |
 
-Swagger UI: `/api-docs`
+Swagger UI: https://flora-backend-sii6.onrender.com/api-docs

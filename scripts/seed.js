@@ -2,25 +2,25 @@ require('dotenv').config();
 const sequelize = require('../config/db');
 const Bouquet = require('../models/bouquet');
 
-// Дані з фронтенду — поля перейменовані відповідно до моделі:
-// name → title, src → photoURL, alt — не зберігається
+const BASE_IMG = 'https://iryna-vokh-silence.github.io/flora/images';
+
 const bouquets = [
-  { title: 'Peach Meadow', description: 'A delicate blend of peach roses, tulips, and seasonal fillers — perfect for brightening any space with natural warmth.', price: '$55', photoURL: 'https://res.cloudinary.com/demo/image/upload/bouquet-1.jpg' },
-  { title: 'Blush Romance', description: 'Soft pink peonies and roses arranged with eucalyptus and delicate white fillers for a timeless romantic look.', price: '$34', photoURL: 'https://res.cloudinary.com/demo/image/upload/bouquet-2.jpg' },
-  { title: 'Pastel Garden', description: 'A cheerful mix of pastel-toned blooms including lavender, baby\'s breath, and soft yellow sunflowers.', price: '$40', photoURL: 'https://res.cloudinary.com/demo/image/upload/bouquet-3.jpg' },
-  { title: 'Spring Elegance', description: 'Each stem is carefully selected to create a bouquet that radiates freshness, elegance, and the gentle charm of spring.', price: '$35', photoURL: 'https://res.cloudinary.com/demo/image/upload/bouquet-4.jpg' },
-  { title: 'Ivory Dream', description: 'A sophisticated all-white arrangement featuring gardenias, white roses, and lisianthus with lush greenery.', price: '$62', photoURL: 'https://res.cloudinary.com/demo/image/upload/bouquet-5.jpg' },
-  { title: 'Lavender Mist', description: 'A calming arrangement of lavender stems, purple statice, and soft white blooms that bring serenity to any room.', price: '$38', photoURL: 'https://res.cloudinary.com/demo/image/upload/bouquet-6.jpg' },
-  { title: 'Golden Sunrise', description: 'Bright sunflowers and golden yellow chrysanthemums paired with lush greenery for a warm and joyful display.', price: '$44', photoURL: 'https://res.cloudinary.com/demo/image/upload/bouquet-7.jpg' },
-  { title: 'Coral Sunset', description: 'A vibrant bouquet of coral and orange roses with deep burgundy accents, evoking the beauty of a warm evening sky.', price: '$50', photoURL: 'https://res.cloudinary.com/demo/image/upload/bouquet-8.jpg' },
-  { title: 'Wildflower Charm', description: 'A loosely gathered bundle of wildflowers including chamomile, cornflowers, and poppy buds for a natural rustic feel.', price: '$32', photoURL: 'https://res.cloudinary.com/demo/image/upload/bouquet-9.jpg' },
-  { title: 'Midnight Rose', description: 'Deep red and black roses arranged with dark foliage for a dramatic and luxurious statement bouquet.', price: '$75', photoURL: 'https://res.cloudinary.com/demo/image/upload/bouquet-10.jpg' },
+  { title: 'Peach Meadow', description: 'A delicate blend of peach roses, tulips, and seasonal fillers — perfect for brightening any space with natural warmth.', price: '$55', photoURL: `${BASE_IMG}/bouquet-1@1x.jpg` },
+  { title: 'Blush Romance', description: 'Soft pink peonies and roses arranged with eucalyptus and delicate white fillers for a timeless romantic look.', price: '$34', photoURL: `${BASE_IMG}/bouquet-2@1x.jpg` },
+  { title: 'Pastel Garden', description: 'A cheerful mix of pastel-toned blooms including lavender, baby\'s breath, and soft yellow sunflowers.', price: '$40', photoURL: `${BASE_IMG}/bouquet-3@1x.jpg` },
+  { title: 'Tulip Charm', description: 'A vibrant mix of tulips in warm tones, carefully arranged for a fresh and cheerful springtime feel.', price: '$35', photoURL: `${BASE_IMG}/bouquet-4@1x.jpg` },
+  { title: 'Berry Bloom', description: 'Deep berry-toned roses and dahlias with lush greenery create a rich and indulgent floral display.', price: '$62', photoURL: `${BASE_IMG}/bouquet-5@1x.jpg` },
+  { title: 'Sweet Whisper', description: 'Soft pastel blooms in blush and cream tones, gently arranged for a delicate and romantic presentation.', price: '$38', photoURL: `${BASE_IMG}/bouquet-6@1x.jpg` },
+  { title: 'Field Joy', description: 'A cheerful bouquet inspired by sun-drenched meadows, featuring bright mixed blooms and airy greenery.', price: '$44', photoURL: `${BASE_IMG}/bouquet-7@1x.jpg` },
+  { title: 'Soft Bloom', description: 'Muted tones of dusty rose and sage create a calm, understated bouquet perfect for everyday gifting.', price: '$50', photoURL: `${BASE_IMG}/bouquet-8@1x.jpg` },
+  { title: 'Spring Elegance', description: 'Each stem is carefully selected to create a bouquet that radiates freshness, elegance, and the gentle charm of spring.', price: '$32', photoURL: `${BASE_IMG}/bouquet-9@1x.jpg` },
+  { title: 'Berry Chic', description: 'Bold burgundy and plum blooms combined with soft textures for a modern, fashion-forward floral statement.', price: '$75', photoURL: `${BASE_IMG}/bouquet-10@1x.jpg` },
+  { title: 'Lavender Dream', description: 'A soothing blend of lavender, lilac, and white blooms that bring a tranquil, dreamy quality to any space.', price: '$45', photoURL: `${BASE_IMG}/bouquet-11@1x.jpg` },
 ];
 
 (async () => {
   try {
     await sequelize.authenticate();
-    console.log('Database connected');
     await sequelize.sync({ alter: false });
 
     const count = await Bouquet.count();
