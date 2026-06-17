@@ -8,7 +8,7 @@ const { createSchema, updateSchema } = require('../schemas/bouquetSchemas');
 
 router.get('/', ctrl.getAll);
 router.get('/:id', ctrl.getById);
-router.post('/', validateBody(createSchema), ctrl.create);
+router.post('/', upload.single('photo'), validateBody(createSchema), ctrl.create);
 router.put('/:id', validateBody(updateSchema), ctrl.update);
 router.delete('/:id', ctrl.remove);
 router.patch('/:id/favorite', ctrl.toggleFavorite);

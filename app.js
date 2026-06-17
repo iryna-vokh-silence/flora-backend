@@ -4,6 +4,8 @@ const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const bouquetsRouter = require('./routes/bouquets');
+const ordersRouter = require('./routes/orders');
+const reviewsRouter = require('./routes/reviews');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -20,6 +22,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Маршрути
 app.use('/api/bouquets', bouquetsRouter);
+app.use('/api/orders', ordersRouter);
+app.use('/api/reviews', reviewsRouter);
 
 
 // 404 для невідомих маршрутів

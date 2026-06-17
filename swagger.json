@@ -104,6 +104,62 @@
         }
       }
     },
+    "/orders": {
+      "post": {
+        "summary": "Створити замовлення",
+        "tags": ["Orders"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/OrderCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Замовлення створено",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Order" } } }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/reviews": {
+      "get": {
+        "summary": "Список відгуків",
+        "tags": ["Reviews"],
+        "responses": {
+          "200": {
+            "description": "Масив відгуків",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Review" } }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Додати відгук",
+        "tags": ["Reviews"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ReviewCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Відгук додано",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Review" } } }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
     "/bouquets/{id}/photo": {
       "patch": {
         "summary": "Оновити фото букету",
@@ -154,6 +210,42 @@
           "description": { "type": "string", "example": "A delicate spring bouquet" },
           "price": { "type": "string", "example": "$55" },
           "photoURL": { "type": "string", "format": "uri" }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "name": { "type": "string", "example": "Ann" },
+          "phone": { "type": "string", "example": "+1 (555) 123-4567" },
+          "address": { "type": "string", "example": "456 Floral Ave" },
+          "message": { "type": "string", "example": "Please deliver in the morning" }
+        }
+      },
+      "OrderCreate": {
+        "type": "object",
+        "required": ["name", "phone"],
+        "properties": {
+          "name": { "type": "string", "example": "Ann" },
+          "phone": { "type": "string", "example": "+1 (555) 123-4567" },
+          "address": { "type": "string", "example": "456 Floral Ave" },
+          "message": { "type": "string", "example": "Please deliver in the morning" }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "author": { "type": "string", "example": "Emma T." },
+          "quote": { "type": "string", "example": "Flora made my anniversary unforgettable!" }
+        }
+      },
+      "ReviewCreate": {
+        "type": "object",
+        "required": ["author", "quote"],
+        "properties": {
+          "author": { "type": "string", "example": "Emma T." },
+          "quote": { "type": "string", "example": "Flora made my anniversary unforgettable!" }
         }
       },
       "BouquetUpdate": {
