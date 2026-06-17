@@ -1,6 +1,6 @@
 # Flora Backend
 
-REST API для колекції букетів. Express + PostgreSQL (Sequelize).
+REST API для колекції букетів, замовлень та відгуків. Express + PostgreSQL (Sequelize).
 
 ## Live
 
@@ -27,14 +27,29 @@ npm run seed
 
 ## API ендпоінти
 
+### Букети
+
 | Метод | Шлях | Опис |
 |-------|------|------|
 | GET | /api/bouquets | Список букетів (пагінація: `_page`, `_limit`) |
 | GET | /api/bouquets/:id | Букет за id |
-| POST | /api/bouquets | Створити букет |
+| POST | /api/bouquets | Створити букет (multipart/form-data, поле `photo` — файл) |
 | PUT | /api/bouquets/:id | Оновити букет |
 | DELETE | /api/bouquets/:id | Видалити букет |
 | PATCH | /api/bouquets/:id/favorite | Переключити favorite |
 | PATCH | /api/bouquets/:id/photo | Оновити фото (multipart/form-data) |
+
+### Замовлення
+
+| Метод | Шлях | Опис |
+|-------|------|------|
+| POST | /api/orders | Створити замовлення |
+
+### Відгуки
+
+| Метод | Шлях | Опис |
+|-------|------|------|
+| GET | /api/reviews | Список відгуків |
+| POST | /api/reviews | Додати відгук |
 
 Swagger UI: https://flora-backend-sii6.onrender.com/api-docs
