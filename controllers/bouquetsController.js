@@ -32,13 +32,25 @@ const getById = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    // Генеруємо photoURL через gravatar якщо не передано явно
-    const photoURL =
-      req.body.photoURL ??
-      gravatar.url(req.body.title, { s: '400', d: 'retro' }, true);
+    let photoURL = req.body.photoURL ?? null;
+
+    if (req.file) {
+      const ext = path.extname(req.file.originalname);
+      const filename = `${uuidv4()}${ext}`;
+      const photosDir = path.join(process.cwd(), 'public', 'photos');
+      const finalPath = path.join(photosDir, filename);
+      await fs.rename(req.file.path, finalPath);
+      photoURL = `${process.env.BASE_URL}/photos/${filename}`;
+    }
+
+    if (!photoURL) {
+      photoURL = gravatar.url(req.body.title, { s: '400', d: 'retro' }, true);
+    }
+
     const bouquet = await service.create({ ...req.body, photoURL });
     res.status(201).json(bouquet);
   } catch (err) {
+    if (req.file?.path) await fs.unlink(req.file.path).catch(() => {});
     next(err);
   }
 };

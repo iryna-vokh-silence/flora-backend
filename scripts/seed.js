@@ -1,6 +1,7 @@
 require('dotenv').config();
 const sequelize = require('../config/db');
 const Bouquet = require('../models/bouquet');
+const Review = require('../models/review');
 
 const BASE_IMG = 'https://iryna-vokh-silence.github.io/flora/images';
 
@@ -18,19 +19,36 @@ const bouquets = [
   { title: 'Lavender Dream', description: 'A soothing blend of lavender, lilac, and white blooms that bring a tranquil, dreamy quality to any space.', price: '$45', photoURL: `${BASE_IMG}/bouquet-11@1x.jpg` },
 ];
 
+const reviews = [
+  { author: 'Emma T.', quote: 'Flora made my anniversary unforgettable. The bouquet was absolutely stunning and arrived perfectly fresh!' },
+  { author: 'Daniel R.', quote: 'Absolutely stunning bouquet! My wife was speechless. Will definitely order again.' },
+  { author: 'Olivia M.', quote: 'The service was exceptional from start to finish. Beautiful flowers, fast delivery.' },
+  { author: 'Sophia L.', quote: 'Our wedding centerpieces were beyond anything we imagined. Flora truly brings creativity to life.' },
+  { author: 'James K.', quote: 'Ordered last minute for Mother\'s Day and they delivered perfectly. Incredible quality!' },
+  { author: 'Mia P.', quote: 'They styled our office opening event beautifully. Every guest was impressed by the floral arrangements.' },
+];
+
 (async () => {
   try {
     await sequelize.authenticate();
     await sequelize.sync({ alter: false });
 
-    const count = await Bouquet.count();
-    if (count > 0) {
-      console.log(`Database already has ${count} bouquets. Skipping seed.`);
-      process.exit(0);
+    const bouquetCount = await Bouquet.count();
+    if (bouquetCount === 0) {
+      await Bouquet.bulkCreate(bouquets);
+      console.log(`Seeded ${bouquets.length} bouquets successfully`);
+    } else {
+      console.log(`Database already has ${bouquetCount} bouquets. Skipping bouquets seed.`);
     }
 
-    await Bouquet.bulkCreate(bouquets);
-    console.log(`Seeded ${bouquets.length} bouquets successfully`);
+    const reviewCount = await Review.count();
+    if (reviewCount === 0) {
+      await Review.bulkCreate(reviews);
+      console.log(`Seeded ${reviews.length} reviews successfully`);
+    } else {
+      console.log(`Database already has ${reviewCount} reviews. Skipping reviews seed.`);
+    }
+
     process.exit(0);
   } catch (err) {
     console.error('Seed failed:', err.message);
